@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -18,12 +19,11 @@ export default function Home() {
       </div>
 
       <div className="flex items-center justify-center">
-        <Button size="lg" className="mr-4">
-          New project
+        <Button asChild className="mr-4">
+          <Link href="/new">New Project</Link>
         </Button>
-        <Button size="lg" variant="outline">
-          Learn more
-        </Button>
+
+        <Button variant="outline">Learn more</Button>
       </div>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
