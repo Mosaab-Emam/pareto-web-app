@@ -19,29 +19,27 @@ export default function SupportBox() {
       </CardHeader>
       <CardContent className="columns-3">
         {supportList.map((sublist) => (
-          <>
+          <div key={sublist.title}>
             <h4 className="mb-2 scroll-m-20 text-xl font-semibold tracking-tight">
               {sublist.title}
             </h4>
             <ul className="mb-2 ml-2">
               {sublist.list.map((item) => (
-                <>
-                  <li className="mb-2 flex items-center">
-                    <div
-                      className={`mr-2 h-4 w-4 rounded-full ${
-                        item.status == "supported"
-                          ? "bg-green-500"
-                          : item.status == "wip"
-                          ? "bg-yellow-500"
-                          : "bg-red-500"
-                      }`}
-                    />
-                    {item.name}
-                  </li>
-                </>
+                <li key={item.name} className="mb-2 flex items-center">
+                  <div
+                    className={`mr-2 h-4 w-4 rounded-full ${
+                      item.status == "supported"
+                        ? "bg-green-500"
+                        : item.status == "wip"
+                        ? "bg-yellow-500"
+                        : "bg-red-500"
+                    }`}
+                  />
+                  {item.name}
+                </li>
               ))}
             </ul>
-          </>
+          </div>
         ))}
       </CardContent>
       <CardFooter className="border-t-2 border-gray-100 pt-4">

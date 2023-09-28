@@ -13,7 +13,7 @@ interface ProgressProps
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
   ProgressProps
->(({ className, value, ...props }, ref) => (
+>(({ className, value, indicatorClassName, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
     className={cn(
@@ -26,7 +26,7 @@ const Progress = React.forwardRef<
       className={cn(
         "h-full w-full flex-1 bg-primary transition-all",
         props.text ? "flex items-center justify-center" : "",
-        props.indicatorClassName,
+        indicatorClassName,
       )}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     >

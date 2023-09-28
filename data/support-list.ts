@@ -61,10 +61,10 @@ const supportList: SubList[] = [
         name: "Django",
         status: "scheduled",
       },
-      {
-        name: "Rocket",
-        status: "scheduled",
-      },
+      // {
+      //   name: "Rocket",
+      //   status: "scheduled",
+      // },
       {
         name: "Actix",
         status: "scheduled",

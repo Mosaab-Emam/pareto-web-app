@@ -73,7 +73,7 @@ export default function Footer() {
 
       <div className="flex w-full max-w-sm items-center space-x-2">
         <Input type="email" placeholder="Email" />
-        <Button type="submit" className="w-40">
+        <Button type="submit" className="w-44">
           Get Updated
         </Button>
       </div>
