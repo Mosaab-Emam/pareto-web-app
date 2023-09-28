@@ -5,13 +5,12 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { CalendarDays } from "lucide-react";
 import Link from "next/link";
 import { Input } from "./input";
 
 export default function Footer() {
   return (
-    <footer className="flex justify-between px-24 py-8">
+    <footer className="flex flex-col justify-between p-12 py-8 sm:flex-row md:px-24">
       <div>
         Made with ❤️ By
         <HoverCard>

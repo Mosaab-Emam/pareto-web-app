@@ -17,7 +17,7 @@ export default function SupportBox() {
           Any framework, any language, any integration, any infrastructure.
         </CardDescription>
       </CardHeader>
-      <CardContent className="columns-3">
+      <CardContent className="columns-1 sm:columns-2 md:columns-3">
         {supportList.map((sublist) => (
           <div key={sublist.title}>
             <h4 className="mb-2 scroll-m-20 text-xl font-semibold tracking-tight">
