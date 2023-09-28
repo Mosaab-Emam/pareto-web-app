@@ -16,15 +16,6 @@ export default function Home() {
       </div>
 
       <Steps />
-
-      {/* <div className="mb-12 flex items-center justify-center">
-        <Button asChild className="mr-4">
-          <Link href="/new">New Project</Link>
-        </Button>
-
-        <Button variant="outline">Learn more</Button>
-      </div> */}
-
       <SupportBox />
     </main>
   );

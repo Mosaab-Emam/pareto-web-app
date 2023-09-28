@@ -149,6 +149,10 @@ const supportList: SubList[] = [
     title: "Features",
     list: [
       {
+        name: "I18n",
+        status: "supported",
+      },
+      {
         name: "REST api",
         status: "supported",
       },
