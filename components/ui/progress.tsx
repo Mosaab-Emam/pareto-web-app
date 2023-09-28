@@ -33,7 +33,7 @@ const Progress = React.forwardRef<
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     >
       {!!props.text && (
-        <div className="relative text-base translate-x-1/2 leadig-none">
+        <div className="relative text-base translate-x-full leadig-none">
           {props.text}
         </div>
       )}

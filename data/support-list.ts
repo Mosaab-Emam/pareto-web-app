@@ -28,6 +28,10 @@ const supportList: SubList[] = [
         name: "MERN STACK",
         status: "wip",
       },
+      {
+        name: "More",
+        status: "scheduled",
+      },
     ],
   },
   {
@@ -77,6 +81,10 @@ const supportList: SubList[] = [
         name: "NestJs",
         status: "wip",
       },
+      {
+        name: "More",
+        status: "scheduled",
+      },
     ],
   },
   {
@@ -106,6 +114,10 @@ const supportList: SubList[] = [
         name: "appwrite",
         status: "scheduled",
       },
+      {
+        name: "More",
+        status: "scheduled",
+      },
     ],
   },
   {
@@ -126,6 +138,101 @@ const supportList: SubList[] = [
       {
         name: "CockroachDB",
         status: "wip",
+      },
+      {
+        name: "More",
+        status: "scheduled",
+      },
+    ],
+  },
+  {
+    title: "Features",
+    list: [
+      {
+        name: "REST api",
+        status: "supported",
+      },
+      {
+        name: "GraphQL api",
+        status: "supported",
+      },
+      {
+        name: "OpenAI Schema",
+        status: "supported",
+      },
+      {
+        name: "JSON:API standard",
+        status: "supported",
+      },
+      {
+        name: "Admin panel",
+        status: "supported",
+      },
+      {
+        name: "More",
+        status: "scheduled",
+      },
+    ],
+  },
+  {
+    title: "Hosting",
+    list: [
+      {
+        name: "Vercel",
+        status: "supported",
+      },
+      {
+        name: "Netlify",
+        status: "supported",
+      },
+      {
+        name: "Shared Hosting",
+        status: "wip",
+      },
+      {
+        name: "VPS Hosting",
+        status: "wip",
+      },
+      {
+        name: "More",
+        status: "scheduled",
+      },
+    ],
+  },
+  {
+    title: "SaaS integrations",
+    list: [
+      {
+        name: "Authentication",
+        status: "supported",
+      },
+      {
+        name: "Logging",
+        status: "scheduled",
+      },
+      {
+        name: "CI/CD",
+        status: "supported",
+      },
+      {
+        name: "Emails",
+        status: "wip",
+      },
+      {
+        name: "Notifications",
+        status: "supported",
+      },
+      {
+        name: "Payment processing",
+        status: "supported",
+      },
+      {
+        name: "Crypto payment gateways",
+        status: "scheduled",
+      },
+      {
+        name: "More",
+        status: "scheduled",
       },
     ],
   },

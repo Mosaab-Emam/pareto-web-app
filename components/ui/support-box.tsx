@@ -14,7 +14,7 @@ export default function SupportBox() {
       <CardHeader className="text-center">
         <CardTitle>We Support Everything</CardTitle>
         <CardDescription>
-          Choose a preset, or fine-tune your stack
+          Any framework, any language, any integration, any infrastructure.
         </CardDescription>
       </CardHeader>
       <CardContent className="columns-3">
