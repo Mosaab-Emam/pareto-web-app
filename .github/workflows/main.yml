@@ -10,10 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Hello world action step
-        uses: ./ # Uses an action in the root directory
+        uses: Mosaab-Emam/hello-world-javascript-action@v1.1
         id: hello
         with:
-          who-to-greet: 'Mona the Octocat'
+          who-to-greet: 'Mosaab Emam'
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
