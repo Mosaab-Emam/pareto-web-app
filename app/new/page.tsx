@@ -3,12 +3,26 @@ import { Choices } from "@/components/ui/choices";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import data from "@/data";
+import { auth } from "@clerk/nextjs";
 import { Octokit } from "octokit";
 
 export default function New() {
   async function createNewRepo(formData: FormData) {
     "use server";
-    const octokit = new Octokit({ auth: process.env.GITHUB_TESTING_PAT });
+
+    const clerkUser = auth();
+    const response = await fetch(
+      `https://api.clerk.com/v1/users/${clerkUser.userId}/oauth_access_tokens/github`,
+      {
+        headers: {
+          authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
+        },
+      },
+    );
+    const [githubAccessToken] = (await response.json()) as { token: string }[];
+    console.log("hello server compoenent", githubAccessToken);
+
+    const octokit = new Octokit({ auth: githubAccessToken.token });
     const new_repo_name =
       (formData.get("name") as string) ?? "default-repo-name";
 
