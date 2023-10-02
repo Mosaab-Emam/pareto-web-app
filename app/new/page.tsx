@@ -3,43 +3,36 @@ import { Choices } from "@/components/ui/choices";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import data from "@/data";
+import sodiumize from "@/lib/utils/sodiumize";
 import { auth } from "@clerk/nextjs";
 import { Octokit } from "octokit";
 
-export default function New() {
+export default function Page() {
   async function createNewRepo(formData: FormData) {
     "use server";
 
-    const clerkUser = auth();
-    const response = await fetch(
-      `https://api.clerk.com/v1/users/${clerkUser.userId}/oauth_access_tokens/github`,
-      {
-        headers: {
-          authorization: `Bearer ${process.env.CLERK_SECRET_KEY}`,
-        },
-      },
-    );
-    const [githubAccessToken] = (await response.json()) as { token: string }[];
-    console.log("hello server compoenent", githubAccessToken);
+    const octokit = new Octokit({ auth: process.env.PARETO_PAT });
+    const new_repo_name = randomUUID();
 
-    const octokit = new Octokit({ auth: githubAccessToken.token });
-    const new_repo_name =
-      (formData.get("name") as string) ?? "default-repo-name";
-
-    // Get authenticated user data
-    const {
-      data: { login: owner },
-    } = await octokit.rest.users.getAuthenticated();
-
-    // Create a brand new repo
-    await octokit.rest.repos.createForAuthenticatedUser({
+    // Create a private repo on pareto for the project
+    const repo = await octokit.request("POST /orgs/{org}/repos", {
+      org: "paretohq",
       name: new_repo_name,
+      description: "This is your first repository",
+      homepage: "https://github.com",
+      private: true,
+      has_issues: false,
+      has_projects: false,
+      has_wiki: false,
+      headers: {
+        "X-GitHub-Api-Version": "2022-11-28",
+      },
     });
     console.log(`Repository: ${new_repo_name} created successfully`);
 
     // Put pareto-schema.json into the newly created repo
     await octokit.rest.repos.createOrUpdateFileContents({
-      owner,
+      owner: "paretohq",
       repo: new_repo_name,
       path: "pareto-schema.json",
       message: "Create pareto-schema.json",
@@ -47,6 +40,39 @@ export default function New() {
     });
 
     console.log(`File: pareto-schema.json created successfully`);
+
+    // Create a repo secret
+    const pub_key = await octokit.request(
+      "GET /repos/{owner}/{repo}/actions/secrets/public-key",
+      {
+        owner: "paretohq",
+        repo: new_repo_name,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      },
+    );
+
+    const encrypted_value = await sodiumize(
+      pub_key.data.key,
+      process.env.PARETO_PAT!,
+    );
+
+    await octokit.request(
+      "PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}",
+      {
+        owner: "paretohq",
+        repo: new_repo_name,
+        secret_name: "PARETO_PAT",
+        encrypted_value,
+        key_id: pub_key.data.key_id,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+        },
+      },
+    );
+
+    console.log("Add Secret");
   }
 
   return (
@@ -62,9 +88,9 @@ export default function New() {
         <Button type="submit">Create</Button>
       </form>
 
-      {data.map((item) => (
+      {/* {data.map((item) => (
         <Choices key={item.title} title={item.title} choices={item.choices} />
-      ))}
+      ))} */}
     </main>
   );
 }
