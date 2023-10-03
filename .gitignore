@@ -36,3 +36,4 @@ next-env.d.ts
 
 bin
 external
+play.ts
