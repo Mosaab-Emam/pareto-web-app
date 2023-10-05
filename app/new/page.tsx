@@ -1,6 +1,7 @@
 "use client";
 
 import crypto from "crypto";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Choices } from "@/components/ui/choices";
 import {
@@ -14,7 +15,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import data from "@/data";
+import {
+  auth_options,
+  auth_options_zod_enum,
+  oauth_providers_zod_enum,
+  type OAuthProvider,
+} from "@/data/auth";
 import Kitter from "@/lib/utils/kitter";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,22 +46,20 @@ export default function Page() {
 
   const formSchema = z.object({
     new_repo_name: z.string(),
-    preset: z.string(),
-    auth: z.object({
-      provider: z.enum(["next-auth", "clerk"]),
-      oauth_providers: z.array(z.enum(["google", "gitub", "discord"])),
-    }),
+    auth_provider: z.enum(auth_options_zod_enum),
+    oauth_providers: z.array(z.enum(oauth_providers_zod_enum)),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       new_repo_name: randomUUID(),
-      preset: "t3-legacy",
-      auth: {
-        provider: "next-auth",
-        oauth_providers: [],
-      },
+      auth_provider: "next-auth",
+      oauth_providers: [],
+      // auth: {
+      //   provider: "next-auth",
+      //   oauth_providers: [],
+      // },
     },
   });
 
@@ -73,6 +79,7 @@ export default function Page() {
       <div className="mb-24 text-7xl">Initialize Your Project</div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          {/* Project name */}
           <FormField
             control={form.control}
             name="new_repo_name"
@@ -85,6 +92,45 @@ export default function Page() {
                 <FormDescription>
                   Set a name for your new project
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Auth provider */}
+          <FormField
+            control={form.control}
+            name="auth_provider"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Choose an auth provider:</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {auth_options.map((auth_option) => (
+                      <FormItem
+                        key={auth_option.id}
+                        className="flex items-center space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={auth_option.id} />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          {auth_option.name}{" "}
+                          {auth_option.status == "soon" && (
+                            <Badge variant="default">coming soon</Badge>
+                          )}
+                          {auth_option.status == "schedule" && (
+                            <Badge variant="destructive">sceduled</Badge>
+                          )}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
