@@ -59,6 +59,17 @@ export default function generatorWorflowFileBuilder() {
               push: false,
             },
           },
+          {
+            name: "Run pareto generator",
+            run: "npx @paretohq/generator",
+          },
+          {
+            uses: "EndBug/add-and-commit@v9",
+            with: {
+              fetch: false,
+              push: true,
+            },
+          },
         ],
       },
     },
