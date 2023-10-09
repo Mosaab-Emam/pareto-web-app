@@ -9,8 +9,19 @@ import NuxtJsIcon from "../assets/logos/nuxt-icon.svg";
 import RemixIcon from "../assets/logos/remix.svg";
 import SvelteKitIcon from "../assets/logos/svelte-kit.svg";
 
+type FrameworkId =
+  | "nextjs"
+  | "nuxt"
+  | "remix"
+  | "sveltekit"
+  | "laravel"
+  | "django"
+  | "express"
+  | "fastify"
+  | "nestjs"
+  | "actix";
 type Framework = {
-  id: string;
+  id: FrameworkId;
   name: string;
   icon: any;
 };
@@ -66,4 +77,4 @@ export const frameworks: Array<Framework> = [
     name: "NestJs",
     icon: NestJsIcon,
   },
-] as const;
+];
