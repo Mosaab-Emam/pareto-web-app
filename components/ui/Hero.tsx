@@ -19,6 +19,21 @@ export default function Hero() {
   const getObsoleteCommand = () =>
     obsoleteCommands[Math.floor(Math.random() * obsoleteCommands.length)];
 
+  const randomTopPosition = (): number => {
+    const top = Math.floor(Math.random() * window.innerHeight);
+
+    const { top: heading_start, bottom: heading_end } =
+      headingRef.current!.getBoundingClientRect();
+
+    if (top > 100 && top < heading_start) return top;
+    if (top > heading_end && top < window.innerHeight - 100) return top;
+
+    return randomTopPosition();
+  };
+
+  const randomLeftPosition = () =>
+    Math.floor(Math.random() * (window.innerWidth - 300));
+
   useEffect(() => {
     const interval = setInterval(() => {
       const newChild = (
@@ -40,24 +55,7 @@ export default function Hero() {
     }, 2500);
 
     return () => clearInterval(interval);
-  }, []);
-
-  const randomTopPosition = (): number => {
-    const top = Math.floor(Math.random() * window.innerHeight);
-
-    const { top: heading_start, bottom: heading_end } =
-      headingRef.current!.getBoundingClientRect();
-
-    if (top > 100 && top < heading_start) return top;
-    if (top > heading_end && top < window.innerHeight - 100) return top;
-
-    return randomTopPosition();
-  };
-
-  const randomLeftPosition = (): number => {
-    const left = Math.floor(Math.random() * window.innerWidth);
-    return left;
-  };
+  });
 
   return (
     <div className="relative flex h-screen items-center justify-center overflow-x-hidden">
