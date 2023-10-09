@@ -1,10 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-  ],
+  content: ["./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}"],
   theme: {
     container: {
       center: true,
@@ -67,8 +64,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "custom-ping": "ping 5s ease-in forwards",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
