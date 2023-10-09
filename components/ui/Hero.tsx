@@ -55,7 +55,7 @@ export default function Hero() {
   };
 
   const randomLeftPosition = (): number => {
-    const left = Math.floor(Math.random() * (window.innerWidth - 600));
+    const left = Math.floor(Math.random() * window.innerWidth);
     return left;
   };
 

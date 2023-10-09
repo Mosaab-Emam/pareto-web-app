@@ -1,5 +1,4 @@
 import Hero from "@/components/ui/Hero";
-import { Progress } from "@/components/ui/progress";
 import Steps from "@/components/ui/steps";
 import SupportBox from "@/components/ui/support-box";
 
