@@ -31,8 +31,11 @@ export default function Hero() {
     return randomTopPosition();
   };
 
-  const randomLeftPosition = () =>
-    Math.floor(Math.random() * (window.innerWidth - 300));
+  const randomLeftPosition = (): number => {
+    const left = Math.floor(Math.random() * window.innerWidth);
+    if (left > 300 && left < window.innerWidth - 300) return left;
+    return randomLeftPosition();
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -52,7 +55,7 @@ export default function Hero() {
         </div>
       );
       setChildren((prevChildren) => [...prevChildren, newChild]);
-    }, 2500);
+    }, 1500);
 
     return () => clearInterval(interval);
   });
