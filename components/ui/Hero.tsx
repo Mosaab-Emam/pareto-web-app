@@ -6,13 +6,13 @@ export default function Hero() {
   const [children, setChildren] = useState<Array<JSX.Element>>([]);
   const headingRef = useRef<HTMLDivElement>(null);
   const obsoleteCommands = [
-    "npx create-next-app@latest",
-    "npm create svelte@latest",
+    "npx create-next-app",
+    "npm create svelte",
     "django-admin startproject",
     "npm i @remix-run/*",
-    "npm create qwik@latest",
-    "npm init solid@latest",
-    "npx supastarter@latest",
+    "npm create qwik",
+    "npm init solid",
+    "npx supastarter",
     "shipfa.st",
   ];
 
@@ -33,6 +33,9 @@ export default function Hero() {
 
   const randomLeftPosition = (): number => {
     const left = Math.floor(Math.random() * window.innerWidth);
+    if (window.innerWidth <= 640) {
+      return window.screen.width / 2;
+    }
     if (left > 300 && left < window.innerWidth - 300) return left;
     return randomLeftPosition();
   };
@@ -42,14 +45,14 @@ export default function Hero() {
       const newChild = (
         <div
           key={Math.random()}
-          className="absolute animate-custom-ping"
+          className="absolute -translate-x-3/4 animate-custom-ping sm:translate-x-0"
           style={{
             top: randomTopPosition(),
             left: randomLeftPosition(),
           }}
         >
           No more &nbsp;
-          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+          <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-semibold sm:text-sm">
             {getObsoleteCommand()}
           </code>
         </div>

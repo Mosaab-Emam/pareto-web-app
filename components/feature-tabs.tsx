@@ -9,19 +9,19 @@ export default function FeatureTabs() {
     <Tabs
       defaultValue="framework"
       orientation="vertical"
-      className="grid w-full grid-cols-2 gap-12"
+      className="grid w-full grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12"
     >
-      <TabsList className="h-full w-full flex-col items-baseline py-0">
-        <TabsTrigger value="framework" className="w-full grow text-xl">
+      <TabsList className="h-full w-full flex-row flex-wrap items-baseline bg-white py-0 sm:flex-nowrap lg:flex-col">
+        <TabsTrigger value="framework" className="w-full grow lg:text-xl">
           Any Framework
         </TabsTrigger>
-        <TabsTrigger value="database" className="w-full grow text-xl">
+        <TabsTrigger value="database" className="w-full grow lg:text-xl">
           Any Databse
         </TabsTrigger>
-        <TabsTrigger value="integration" className="w-full grow text-xl">
+        <TabsTrigger value="integration" className="w-full grow lg:text-xl">
           Any Integration
         </TabsTrigger>
-        <TabsTrigger value="infrastructure" className="w-full grow text-xl">
+        <TabsTrigger value="infrastructure" className="w-full grow lg:text-xl">
           Any Infrastructure
         </TabsTrigger>
       </TabsList>
