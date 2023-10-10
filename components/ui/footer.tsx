@@ -5,10 +5,20 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import { sql } from "@vercel/postgres";
 import Link from "next/link";
 import { Input } from "./input";
 
 export default function Footer() {
+  async function subscribe(formData: FormData) {
+    "use server";
+    if (!formData.get("email")) return;
+    await sql`INSERT INTO subscriptions (email) VALUES (${
+      formData.get("email")! as string
+    });`;
+    console.log("did it work?");
+  }
+
   return (
     <footer className="flex flex-col justify-between p-12 py-8 sm:flex-row md:px-24">
       <div>
@@ -70,12 +80,15 @@ export default function Footer() {
         </HoverCard>
       </div>
 
-      <div className="flex w-full max-w-sm items-center space-x-2">
-        <Input type="email" placeholder="Email" />
+      <form
+        className="flex w-full max-w-sm items-center space-x-2"
+        action={subscribe}
+      >
+        <Input type="email" name="email" placeholder="Email" />
         <Button type="submit" className="w-44">
           Get Updated
         </Button>
-      </div>
+      </form>
     </footer>
   );
 }
