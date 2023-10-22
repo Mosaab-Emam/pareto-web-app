@@ -18,7 +18,7 @@ export default function Navbar() {
       </NavbarBrand>
       <NavbarContent className="hidden gap-4 sm:flex" justify="center">
         <NavbarItem>
-          <Link href="#">Roadmap</Link>
+          <Link color="foreground" href="#">Roadmap</Link>
         </NavbarItem>
         <NavbarItem>
           <Link color="foreground" href="#">
@@ -27,12 +27,9 @@ export default function Navbar() {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+          <Button as={Link} color="primary" target="_blank" href="https://getwaitlist.com/waitlist/5612">
+            Join the waitlist
           </Button>
         </NavbarItem>
       </NavbarContent>
