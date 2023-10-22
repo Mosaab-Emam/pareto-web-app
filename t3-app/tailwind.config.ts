@@ -9,6 +9,9 @@ export default {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
     },
+    animation: {
+      "custom-ping": "ping 5s ease-in forwards",
+    },
   },
   plugins: [],
 } satisfies Config;
