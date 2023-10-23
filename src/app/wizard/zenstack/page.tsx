@@ -3,10 +3,11 @@
 import { Button, Input, Listbox, ListboxItem } from "@nextui-org/react";
 import { useState } from "react";
 // import { auth_options, type Option as AuthSolution } from "~/data/auth";
+import type { ZenstackSupportedFramework } from "@paretohq/types";
 import { api } from "~/trpc/react";
 import { createProjectAction } from "./actions";
 
-const stack_options = [
+const stack_options: Array<{ id: ZenstackSupportedFramework; name: string }> = [
   {
     id: "next.js",
     name: "Next.js",
@@ -27,11 +28,13 @@ const stack_options = [
     id: "express",
     name: "Express (Backend only)",
   },
-] as const satisfies Array<{ id: string; name: string }>;
+];
 
 export default function ZenStackWizard() {
   const [projectName, setProjectName] = useState("");
-  const [selectedStack, setSelectedStack] = useState(new Set(["next"]));
+  const [selectedStack, setSelectedStack] = useState<
+    Set<ZenstackSupportedFramework>
+  >(new Set(["next.js"]));
   // const [selectedItem, setSelectedItem] = useState("");
   // const [authSolution, setAuthSolution] = useState<AuthSolution>("next-auth");
 
@@ -53,7 +56,9 @@ export default function ZenStackWizard() {
           disallowEmptySelection
           selectionMode="single"
           selectedKeys={selectedStack}
-          onSelectionChange={(key) => setSelectedStack(key as Set<string>)}
+          onSelectionChange={(key) =>
+            setSelectedStack(key as Set<ZenstackSupportedFramework>)
+          }
         >
           {(opt) => <ListboxItem key={opt.id}>{opt.name}</ListboxItem>}
         </Listbox>

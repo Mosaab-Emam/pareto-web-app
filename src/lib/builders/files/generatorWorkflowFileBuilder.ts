@@ -1,5 +1,5 @@
-import { readFileSync } from "fs";
-import { parse, stringify } from "yaml";
+import { type ParetoJsonSchema } from "@paretohq/types";
+import { stringify } from "yaml";
 
 type StepWithRun = {
   id?: string;
@@ -29,7 +29,27 @@ type WorkflowFile = {
   };
 };
 
-export default function generatorWorflowFileBuilder() {
+export default function generatorWorflowFileBuilder(schema: ParetoJsonSchema) {
+  const installation_steps: Array<Step> = [];
+  const organization_steps: Array<Step> = [];
+
+  switch (schema.base_framework) {
+    case "next.js":
+      installation_steps.push({
+        id: "create-t3-app-cli",
+        name: "Create T3 app using create-t3-app cli",
+        run: "npx --yes create-t3-app@latest --noGit --CI --nextAuth --prisma --tailwind --trpc",
+      });
+      organization_steps.push({
+        name: "Re-organize",
+        run: "rm -rf bin\nshopt -s dotglob\nmv my-t3-app/*.\nrm -rf my-t3-app",
+      });
+      break;
+
+    default:
+      break;
+  }
+
   const workflow: WorkflowFile = {
     name: "Pareto Project Generator",
     on: {
@@ -43,15 +63,8 @@ export default function generatorWorflowFileBuilder() {
             name: "Checkout",
             uses: "actions/checkout@v4",
           },
-          {
-            id: "create-t3-app-cli",
-            name: "Create T3 app using create-t3-app cli",
-            run: "npx --yes create-t3-app@latest --noGit --CI --nextAuth --prisma --tailwind --trpc",
-          },
-          {
-            name: "Re-organize",
-            run: "rm -rf bin\nshopt -s dotglob\nmv my-t3-app/*.\nrm -rf my-t3-app",
-          },
+          ...installation_steps,
+          ...organization_steps,
           {
             uses: "EndBug/add-and-commit@v9",
             with: {

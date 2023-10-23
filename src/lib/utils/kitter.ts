@@ -1,18 +1,17 @@
-// import { randomUUID } from "crypto";
+import { type ParetoJsonSchema } from "@paretohq/types";
 import { Octokit } from "octokit";
 import generatorWorflowFileBuilder from "../builders/files/generatorWorkflowFileBuilder";
-import paretoJsonBuilder, {
-  type ParetoJsonSchema,
-} from "../builders/files/paretoJsonBuilder";
 import sodiumize from "./sodiumize";
 
 export default class Kitter {
   octokit;
   repo_name: string;
+  schema: ParetoJsonSchema;
 
-  constructor(name: string) {
+  constructor(name: string, schema: ParetoJsonSchema) {
     this.octokit = new Octokit({ auth: process.env.PARETO_PAT });
-    this.repo_name = name; 
+    this.repo_name = name;
+    this.schema = schema;
   }
 
   async createParetoRepo() {
@@ -24,6 +23,7 @@ export default class Kitter {
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
         },
+        private: true,
       });
 
       console.log(
@@ -33,21 +33,19 @@ export default class Kitter {
       );
       return true;
     } catch (error) {
-      console.log("\x1b[31m", "Filed Step: createParetoRepo()", "\x1b[0m");
+      console.log("\x1b[31m", "Failed Step: createParetoRepo()", "\x1b[0m");
       return false;
     }
   }
 
-  async putParetoSchemaFile(schema?: ParetoJsonSchema) {
+  async putParetoSchemaFile() {
     try {
       await this.octokit.rest.repos.createOrUpdateFileContents({
         owner: "paretohq",
         repo: this.repo_name,
         path: ".pareto/schema.json",
         message: "Create .pareto/schema.json",
-        content: schema
-          ? btoa(JSON.stringify(schema))
-          : btoa(paretoJsonBuilder()),
+        content: btoa(JSON.stringify(this.schema)),
       });
 
       console.log(
@@ -57,7 +55,7 @@ export default class Kitter {
       );
       return true;
     } catch (error) {
-      console.log("\x1b[31m", "Filed Step: putParetoSchemaFile()", "\x1b[0m");
+      console.log("\x1b[31m", "Failed Step: putParetoSchemaFile()", "\x1b[0m");
       return false;
     }
   }
@@ -69,7 +67,7 @@ export default class Kitter {
         repo: this.repo_name,
         path: ".github/workflows/pareto-generate.yml",
         message: "Create generation workflow",
-        content: btoa(generatorWorflowFileBuilder()),
+        content: btoa(generatorWorflowFileBuilder(this.schema)),
       });
       console.log(
         "\x1b[32m",
@@ -80,7 +78,7 @@ export default class Kitter {
     } catch (error) {
       console.log(
         "\x1b[31m",
-        "Filed Step: putGeneratorActionFile()",
+        "Failed Step: putGeneratorActionFile()",
         "\x1b[0m",
       );
       return false;
@@ -126,7 +124,7 @@ export default class Kitter {
       );
       return true;
     } catch (error) {
-      console.log("\x1b[31m", "Filed Step: puParetoSecretToken()", "\x1b[0m");
+      console.log("\x1b[31m", "Failed Step: putParetoSecretToken()", "\x1b[0m");
       return false;
     }
   }
