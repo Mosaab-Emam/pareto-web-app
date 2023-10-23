@@ -1,7 +1,8 @@
 type OAuthProvider = "google" | "github" | "discord";
 
-type ParetoJsonSchema = {
-  preset: "t3-legacy";
+export type ParetoJsonSchema = {
+  preset: "t3-legacy" | "zenstack";
+  framework: "next.js";
   auth: {
     provider: "next-auth" | "clerk";
     oauth_providers: OAuthProvider[];

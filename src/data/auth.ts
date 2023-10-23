@@ -16,7 +16,7 @@ type AuthOption = {
 
 export type Option = (typeof auth_options)[number]["id"];
 
-export const auth_options: Array<AuthOption> = [
+export const auth_options = [
   {
     id: "next-auth",
     name: "NextAuth.js",
@@ -74,7 +74,7 @@ export const auth_options: Array<AuthOption> = [
     oauth_providers_selectability: "unavailable",
     status: "soon",
   },
-];
+] as const satisfies Array<AuthOption>;
 
 export const auth_options_zod_enum: [string, ...string[]] = [
   auth_options[0].id,

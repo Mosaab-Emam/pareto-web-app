@@ -11,7 +11,7 @@ type StepWithUses = {
   id?: string;
   name?: string;
   uses: string;
-  with?: Object;
+  with?: object;
 };
 
 type Step = StepWithRun | StepWithUses;
@@ -19,7 +19,7 @@ type Step = StepWithRun | StepWithUses;
 type WorkflowFile = {
   name: string;
   on: {
-    workflow_dispatch: Object;
+    workflow_dispatch: object;
   };
   jobs: {
     build: {

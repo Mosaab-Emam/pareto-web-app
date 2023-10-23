@@ -1,16 +1,18 @@
-import { randomUUID } from "crypto";
+// import { randomUUID } from "crypto";
 import { Octokit } from "octokit";
 import generatorWorflowFileBuilder from "../builders/files/generatorWorkflowFileBuilder";
-import paretoJsonBuilder from "../builders/files/paretoJsonBuilder";
+import paretoJsonBuilder, {
+  type ParetoJsonSchema,
+} from "../builders/files/paretoJsonBuilder";
 import sodiumize from "./sodiumize";
 
 export default class Kitter {
   octokit;
   repo_name: string;
 
-  constructor() {
+  constructor(name: string) {
     this.octokit = new Octokit({ auth: process.env.PARETO_PAT });
-    this.repo_name = randomUUID();
+    this.repo_name = name; 
   }
 
   async createParetoRepo() {
@@ -36,14 +38,16 @@ export default class Kitter {
     }
   }
 
-  async putParetoSchemaFile() {
+  async putParetoSchemaFile(schema?: ParetoJsonSchema) {
     try {
       await this.octokit.rest.repos.createOrUpdateFileContents({
         owner: "paretohq",
         repo: this.repo_name,
         path: ".pareto/schema.json",
         message: "Create .pareto/schema.json",
-        content: btoa(paretoJsonBuilder()),
+        content: schema
+          ? btoa(JSON.stringify(schema))
+          : btoa(paretoJsonBuilder()),
       });
 
       console.log(
