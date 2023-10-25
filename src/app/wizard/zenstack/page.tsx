@@ -1,43 +1,52 @@
 "use client";
 
-import { Button, Input, Listbox, ListboxItem } from "@nextui-org/react";
+import {
+  Button,
+  Input,
+  Listbox,
+  ListboxItem,
+  Select,
+  SelectItem,
+} from "@nextui-org/react";
 import { useState } from "react";
 // import { auth_options, type Option as AuthSolution } from "~/data/auth";
 import type { ZenstackSupportedFramework } from "@paretohq/types";
 import { api } from "~/trpc/react";
 import { createProjectAction } from "./actions";
 
-const stack_options: Array<{ id: ZenstackSupportedFramework; name: string }> = [
+const stack_options: Array<{
+  id: ZenstackSupportedFramework;
+  name: string;
+  selectable: boolean;
+}> = [
   {
     id: "next.js",
     name: "Next.js",
+    selectable: true,
   },
   {
     id: "nuxt",
     name: "Nuxt",
+    selectable: false,
   },
   {
     id: "sveltekit",
     name: "SvelteKit",
+    selectable: false,
   },
   {
     id: "remix",
     name: "Remix.run",
+    selectable: false,
   },
   {
     id: "express",
     name: "Express (Backend only)",
+    selectable: false,
   },
 ];
 
 export default function ZenStackWizard() {
-  const [projectName, setProjectName] = useState("");
-  const [selectedStack, setSelectedStack] = useState<
-    Set<ZenstackSupportedFramework>
-  >(new Set(["next.js"]));
-  // const [selectedItem, setSelectedItem] = useState("");
-  // const [authSolution, setAuthSolution] = useState<AuthSolution>("next-auth");
-
   const createProject = api.project.create.useMutation();
 
   return (
@@ -47,41 +56,26 @@ export default function ZenStackWizard() {
           label="Name"
           name="projectName"
           placeholder="Type a name for your new project"
-          value={projectName}
-          onValueChange={setProjectName}
+          isRequired
         />
-        <Listbox
-          items={stack_options}
-          aria-label="Stack Options"
-          disallowEmptySelection
-          selectionMode="single"
-          selectedKeys={selectedStack}
-          onSelectionChange={(key) =>
-            setSelectedStack(key as Set<ZenstackSupportedFramework>)
-          }
+
+        <Select
+          name="base_framework"
+          label="Choose a framework"
+          className="max-w-xs"
+          isRequired
+          disabledKeys={stack_options.reduce(
+            (keys, opt) => (opt.selectable ? keys : [...keys, opt.id]),
+            [] as Array<string>,
+          )}
         >
-          {(opt) => <ListboxItem key={opt.id}>{opt.name}</ListboxItem>}
-        </Listbox>
-        {/* <Listbox
-          aria-label="List Items"
-          onAction={(key) => setSelectedItem(key as string)}
-        >
-          <ListboxItem key="auth">Auth</ListboxItem>
-          <ListboxItem key="copy">Copy link</ListboxItem>
-          <ListboxItem key="edit">Edit file</ListboxItem>
-          <ListboxItem key="delete" className="text-danger" color="danger">
-            Delete file
-          </ListboxItem>
-        </Listbox> */}
-        {/* {selectedItem === "auth" && (
-          <Listbox
-            items={auth_options}
-            aria-label="Actions"
-            onAction={(key) => setAuthSolution(key as AuthSolution)}
-          >
-            {(opt) => <ListboxItem key={opt.id}>{opt.name}</ListboxItem>}
-          </Listbox>
-        )} */}
+          {stack_options.map((opt) => (
+            <SelectItem key={opt.id} value={opt.id}>
+              {opt.name}
+            </SelectItem>
+          ))}
+        </Select>
+
         <Button
           color="primary"
           type="submit"

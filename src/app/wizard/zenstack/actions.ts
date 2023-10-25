@@ -1,13 +1,14 @@
 "use server";
 
-import { BaseFramework } from "@paretohq/types";
 import Kitter from "~/lib/utils/kitter";
 
 export async function createProjectAction(formData: FormData) {
-  // const base_framework: BaseFramework = formData.get('')
-  console.log("choice:", formData.get("zenstack_framework"));
+  if (!formData.get("base_framework")) throw new Error("Invalid formdata");
+
+  const base_framework = formData.get("base_framework")! as "next.js";
+
   const kitter = new Kitter(formData.get("projectName") as string, {
-    base_framework: "next.js",
+    base_framework,
     auth: {
       solution: "next-auth",
       oauth_providers: [],
@@ -15,7 +16,7 @@ export async function createProjectAction(formData: FormData) {
     db: {
       orm: "prisma",
       zenstack: {
-        framework: "next.js",
+        framework: base_framework,
       },
     },
   });
